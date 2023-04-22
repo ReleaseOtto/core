@@ -1,0 +1,210 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/Automate"
+    }
+  ],
+  "definitions": {
+    "Automate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of the automate object, which is a single automation"
+        },
+        "description": {
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/definitions/Location"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Dependencies"
+          }
+        },
+        "action": {
+          "$ref": "#/definitions/Action"
+        }
+      }
+    },
+    "Local": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false
+    },
+    "Action": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of action for automator to run, when a new version has been found",
+          "enum": [
+            "package"
+          ]
+        },
+        "config": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/PackageAction"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "package"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "config": {
+                "$ref": "#/definitions/PackageAction"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "PackageAction": {
+      "type": "object",
+      "required": ["script"],
+      "properties": {
+        "script": {
+          "type": "string",
+          "description": "The script to run in the package file"
+        }
+      }
+    },
+    "Dependencies": {
+      "type": "object",
+      "required": ["id", "type"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The id is used throughout for associating versions etc, MUST be unique across entries."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of pre-action for automator to perform before running action, usually for finding versions",
+          "enum": [
+            "github-repository-package"
+          ]
+        },
+        "config": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/GithubRepositoryPackage"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "github-repository-package"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "config": {
+                "$ref": "#/definitions/GithubRepositoryPackage"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Location": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of the location that the automation is for.",
+          "enum": [
+            "github"
+          ]
+        },
+        "config": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/GithubLocationConfig"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "github"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "config": {
+                "$ref": "#/definitions/GithubLocationConfig"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "GithubRepositoryPackage": {
+      "type": "object",
+      "required": ["repo", "owner", "package-location"],
+      "properties": {
+        "owner": {
+          "type": "string",
+          "description": "The owner of the GitHub repository in question, for example: github.com/gamingapi/definitions, would be `gamingapi` as the owner."
+        },
+        "repo": {
+          "type": "string",
+          "description": "The GitHub repository in question, for example: github.com/gamingapi/definitions, `definitions` would be the repo."
+        },
+        "branch": {
+          "type": "string",
+          "description": "The branch in question"
+        },
+        "package-location": {
+          "type": "string",
+          "description": "The package.json file location to find the version"
+        }
+      }
+    },
+    "GithubLocationConfig": {
+      "type": "object",
+      "required": ["repo", "owner", "meta-location"],
+      "properties": {
+        "owner": {
+          "type": "string",
+          "description": "The owner of the GitHub repository in question, for example: github.com/gamingapi/definitions, would be `gamingapi` as the owner."
+        },
+        "repo": {
+          "type": "string",
+          "description": "The GitHub repository in question, for example: github.com/gamingapi/definitions, `definitions` would be the repo."
+        },
+        "branch": {
+          "type": "string",
+          "description": "The branch in question"
+        },
+        "meta-location": {
+          "type": "string",
+          "description": "The automator config location, that is being used to store information in the git repository"
+        }
+      }
+    }
+  }
+}

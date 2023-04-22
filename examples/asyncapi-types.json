@@ -1,0 +1,48 @@
+[
+    {
+        "description": "Automatically generate AsyncAPI types",
+        "location": {
+            "type": "github",
+            "config": {
+                "repo": "github.com/GamingAPI/rust-csharp-game-api",
+                "branch": "master",
+                "meta-location": "./version_meta.json"
+            }
+        },
+        "dependencies": [
+            {
+                "id": "dotnet-nats-template",
+                "type": "github-repository-package",
+                "config": {
+                    "repo": "git@github.com:asyncapi/dotnet-nats-template.git",
+                    "branch": "master",
+                    "package-location": "package.json"
+                }
+            },
+            {
+                "id": "asyncapi",
+                "type": "github-asyncapi",
+                "config": {
+                    "repo": "github.com/gamingapi/definitions",
+                    "branch": "master",
+                    "document-location": "rust_public.asyncapi.json"
+                }
+            }
+        ],
+        "action": {
+            "type": "package",
+            "config": {
+                "script": "generate"
+            }
+        },
+        "post-action":  [
+            {
+                "type": "git-commit",
+                "config": {
+                    "commit-type": "conventional-commits",
+                    "commit-message": "{commit}: {commit-sentence}"
+                }
+            }
+        ]
+    }
+]

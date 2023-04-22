@@ -1,0 +1,51 @@
+
+{
+    "id": "asyncapi-typescript-models",
+    "description": "Automatically generate AsyncAPI typescript models",
+    "location": {
+        "type": "github",
+        "config": {
+            "owner": "ModelinaModels",
+            "repo": "AsyncAPI-typescript",
+            "branch": "main",
+            "meta-location": "./version_meta.json",
+            "initializer": {
+                "type": "internal",
+                "config": {
+                    "name": "typescript-modelina",
+                    "variables": {
+                        
+                    }
+                }
+            }
+        }
+    },
+    "dependencies": [
+        {
+            "id": "asyncapi-json-schema",
+            "type": "github-repository-package",
+            "config": {
+                "owner": "asyncapi",
+                "repo": "spec-json-schemas",
+                "branch": "master",
+                "package-location": "package.json"
+            }
+        },
+        {
+            "id": "modelina",
+            "type": "github-repository-package",
+            "config": {
+                "owner": "asyncapi",
+                "repo": "modelina",
+                "branch": "master",
+                "package-location": "package.json"
+            }
+        }
+    ],
+    "action": {
+        "type": "package",
+        "config": {
+            "script": "generate:assets"
+        }
+    }
+}

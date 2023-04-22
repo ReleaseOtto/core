@@ -1,0 +1,86 @@
+{
+  "name": "@releaseotto/core",
+  "version": "0.0.0",
+  "description": "OTTO performs your action on new versioning of APIs, packages, schemas, etc. Keepings things nice and neatly automated.",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/releaseotto/core",
+  "bugs": {
+    "url": "https://github.com/releaseotto/core/issues"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/releaseotto/core.git"
+  },
+  "keywords": [
+    "otto"
+  ],
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/types/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "/lib",
+    "./README.md",
+    "./LICENSE"
+  ],
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "semver": "^7.3.8",
+    "shelljs": "^0.8.5"
+  },
+  "devDependencies": {
+    "@asyncapi/modelina": "2.0.0-next.5",
+    "@semantic-release/commit-analyzer": "^9.0.1",
+    "@semantic-release/github": "^8.0.1",
+    "@semantic-release/npm": "^8.0.0",
+    "@semantic-release/release-notes-generator": "^10.0.2",
+    "@types/jest": "^27.0.2",
+    "@types/semver": "^7.3.13",
+    "@types/shelljs": "^0.8.11",
+    "conventional-changelog-conventionalcommits": "^4.6.1",
+    "cross-env": "^7.0.3",
+    "jest": "^27.2.5",
+    "semantic-release": "^19.0.3",
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.4.4"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "cross-env CI=true jest --coverage",
+    "build:prod": "npm run build:cjs && npm run build:esm && npm run build:types",
+    "build:cjs": "tsc",
+    "build:esm": "tsc --project tsconfig.json --module ESNext --outDir ./lib/esm",
+    "build:types": "tsc --project tsconfig.json --declaration --emitDeclarationOnly --declarationMap --outDir ./lib/types",
+    "release": "semantic-release",
+    "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION",
+    "prepublishOnly": "npm run build:prod && npm run generate:readme:toc",
+    "generate:models": "node ./scripts/generate-automator.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ]
+  }
+}
