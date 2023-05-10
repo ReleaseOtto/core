@@ -3,9 +3,8 @@ import * as path from 'path';
 import { loadMetaConfig, writeMetaInformation } from "./utils/meta";
 import { runAction } from "./commands/npm";
 import { PackageAction } from "./types/automator/PackageAction";
-import { fetchLocation } from "utils/location";
-import { temporaryLocation } from "utils/globals";
-import { getVersionChangeToDo, getVersionDiffs } from "utils/versionStrategies";
+import { fetchLocation } from "./utils/location";
+import { getVersionChangeToDo, getVersionDiffs } from "./utils/versionStrategies";
 import * as Semver from 'semver';
 
 export async function start(config: Automate) {

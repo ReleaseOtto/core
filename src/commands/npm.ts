@@ -1,10 +1,10 @@
 import * as fs from 'fs';
 import * as Shell from 'shelljs';
-import { Automate } from 'types/automator/Automate';
-import { PackageAction } from 'types/automator/PackageAction';
-import { temporaryLocation } from 'utils/globals';
+import { Automate } from '../types/automator/Automate';
+import { PackageAction } from '../types/automator/PackageAction';
+import { temporaryLocation } from '../utils/globals';
 import * as path from 'path';
-import { GithubLocationConfig } from 'types/automator/GithubLocationConfig';
+import { GithubLocationConfig } from '../types/automator/GithubLocationConfig';
 
 export interface LoadPackageOptions {
     location: string

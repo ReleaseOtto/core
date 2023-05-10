@@ -1,5 +1,5 @@
-import { Automate } from 'types/automator/Automate';
-import { createOttoConfig } from 'factories/Otto';
+import { Automate } from '../types/automator/Automate';
+import { createOttoConfig } from '../factories/Otto';
 import { loadConfig } from './input';
 const schema = require('../schemas/automator-options.json');
 
