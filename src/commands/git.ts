@@ -38,7 +38,7 @@ export function commit({
     location,
     commitMessage,
     push
-}: CommitOptions ) {
+}: CommitOptions) {
     if (!Shell.which('git')) {
         Shell.echo('Sorry, this script requires git');
         Shell.exit(1);

@@ -9,9 +9,15 @@
     "Automate": {
       "type": "object",
       "properties": {
+        "version": {
+          "description": "Otto config version",
+          "enum": [
+            "0"
+          ]
+        },
         "id": {
           "type": "string",
-          "description": "Id of the automate object, which is a single automation"
+          "description": "Id of the otto config, must be unique across multiple configurations"
         },
         "description": {
           "type": "string"
@@ -166,6 +172,10 @@
       "type": "object",
       "required": ["repo", "owner", "package-location"],
       "properties": {
+        "versionType": {
+          "enum": ["semver"],
+          "default": "semver"
+        },
         "owner": {
           "type": "string",
           "description": "The owner of the GitHub repository in question, for example: github.com/gamingapi/definitions, would be `gamingapi` as the owner."
@@ -188,6 +198,10 @@
       "type": "object",
       "required": ["repo", "owner", "meta-location"],
       "properties": {
+        "versionType": {
+          "enum": ["semver"],
+          "default": "semver"
+        },
         "owner": {
           "type": "string",
           "description": "The owner of the GitHub repository in question, for example: github.com/gamingapi/definitions, would be `gamingapi` as the owner."

@@ -1,31 +1,36 @@
 import * as fs from 'fs';
+import { Automate } from '../types/automator/Automate';
+import { Meta } from '../types/meta/Meta';
+import { loadConfig } from './input';
+import { SharedVersions } from './versionStrategies';
+const schema = require('../schemas/meta-options.json');
 
-export interface LoadMetaOptions {
-    location: string
+/**
+ * Load otto config file based on either data or location.
+ */
+export function loadMetaConfig(input: any): Meta {
+  const obj = loadConfig(input, schema);
+  if (obj instanceof Meta) {
+    return obj;
+  } else {
+    return Meta.unmarshal(JSON.stringify(obj));
+  }
 }
-export async function loadMetaInformation({
-    location
-}: LoadMetaOptions) {
-    try {
-        const data = fs.readFileSync(location, 'utf8');
-        const jsonData = JSON.parse(data);
-        return jsonData;
-    } catch(e) {
-        console.error(e);
-        throw new Error("Could not load metadata");
-    }
-}
+
 export interface WriteMetaOptions {
-    location: string,
-    data: Record<any, any>
+  config: Automate,
+  versionDiffs: SharedVersions
 }
+
 export function writeMetaInformation({
-    location, 
-    data
+  config,
+  versionDiffs
 }: WriteMetaOptions) {
-    fs.writeFileSync(location, JSON.stringify(data));
-    const readData = fs.readFileSync(location, {encoding: 'utf8'});
-    const json = JSON.parse(readData);
-    console.error(readData);
-    console.error(json == data);
+  const metaConfig = new Meta({});
+  metaConfig.dependencies = {};
+  for (const [id, version] of Object.entries(versionDiffs)) {
+    metaConfig.dependencies[id] = version.remoteVersion;
+  }
+  const location = config.location?.config?.metaMinusLocation || './meta.conf';
+  fs.writeFileSync(location, metaConfig.marshal());
 }

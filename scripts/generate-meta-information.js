@@ -1,7 +1,7 @@
 const { TypeScriptFileGenerator, TS_COMMON_PRESET, Logger, typeScriptDefaultModelNameConstraints, typeScriptDefaultPropertyKeyConstraints } = require('@asyncapi/modelina');
 const fs = require('fs');
 const path = require('path');
-const schemaPath = path.resolve(__dirname, '../schemas/automator-options.json');
+const schemaPath = path.resolve(__dirname, '../schemas/meta-information.json');
 const schema = require(schemaPath);
 Logger.setLogger({
   debug: () => { },
@@ -10,7 +10,7 @@ Logger.setLogger({
   warn: console.warn
 });
 async function generate() {
-  const outputDir = path.resolve(__dirname, '../src/types/automator');
+  const outputDir = path.resolve(__dirname, '../src/types/meta');
   if (fs.existsSync(outputDir)) {
     fs.rmSync(outputDir, { recursive: true });
   }

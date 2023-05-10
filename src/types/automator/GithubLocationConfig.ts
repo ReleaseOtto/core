@@ -1,24 +1,30 @@
-
-class GithubRepositoryPackage {
+import {GithubLocationConfigVersionType} from './GithubLocationConfigVersionType';
+class GithubLocationConfig {
+  private _versionType?: GithubLocationConfigVersionType;
   private _owner: string;
   private _repo: string;
   private _branch?: string;
-  private _packageMinusLocation: string;
+  private _metaMinusLocation: string;
   private _additionalProperties?: Map<string, any>;
 
   constructor(input: {
+    versionType?: GithubLocationConfigVersionType,
     owner: string,
     repo: string,
     branch?: string,
-    packageMinusLocation: string,
+    metaMinusLocation: string,
     additionalProperties?: Map<string, any>,
   }) {
+    this._versionType = input.versionType;
     this._owner = input.owner;
     this._repo = input.repo;
     this._branch = input.branch;
-    this._packageMinusLocation = input.packageMinusLocation;
+    this._metaMinusLocation = input.metaMinusLocation;
     this._additionalProperties = input.additionalProperties;
   }
+
+  get versionType(): GithubLocationConfigVersionType | undefined { return this._versionType; }
+  set versionType(versionType: GithubLocationConfigVersionType | undefined) { this._versionType = versionType; }
 
   get owner(): string { return this._owner; }
   set owner(owner: string) { this._owner = owner; }
@@ -29,14 +35,17 @@ class GithubRepositoryPackage {
   get branch(): string | undefined { return this._branch; }
   set branch(branch: string | undefined) { this._branch = branch; }
 
-  get packageMinusLocation(): string { return this._packageMinusLocation; }
-  set packageMinusLocation(packageMinusLocation: string) { this._packageMinusLocation = packageMinusLocation; }
+  get metaMinusLocation(): string { return this._metaMinusLocation; }
+  set metaMinusLocation(metaMinusLocation: string) { this._metaMinusLocation = metaMinusLocation; }
 
   get additionalProperties(): Map<string, any> | undefined { return this._additionalProperties; }
   set additionalProperties(additionalProperties: Map<string, any> | undefined) { this._additionalProperties = additionalProperties; }
 
   public marshal() : string {
     let json = '{'
+    if(this.versionType !== undefined) {
+      json += `"versionType": ${typeof this.versionType === 'number' || typeof this.versionType === 'boolean' ? this.versionType : JSON.stringify(this.versionType)},`; 
+    }
     if(this.owner !== undefined) {
       json += `"owner": ${typeof this.owner === 'number' || typeof this.owner === 'boolean' ? this.owner : JSON.stringify(this.owner)},`; 
     }
@@ -46,8 +55,8 @@ class GithubRepositoryPackage {
     if(this.branch !== undefined) {
       json += `"branch": ${typeof this.branch === 'number' || typeof this.branch === 'boolean' ? this.branch : JSON.stringify(this.branch)},`; 
     }
-    if(this.packageMinusLocation !== undefined) {
-      json += `"package-location": ${typeof this.packageMinusLocation === 'number' || typeof this.packageMinusLocation === 'boolean' ? this.packageMinusLocation : JSON.stringify(this.packageMinusLocation)},`; 
+    if(this.metaMinusLocation !== undefined) {
+      json += `"meta-location": ${typeof this.metaMinusLocation === 'number' || typeof this.metaMinusLocation === 'boolean' ? this.metaMinusLocation : JSON.stringify(this.metaMinusLocation)},`; 
     }
     if(this.additionalProperties !== undefined) { 
     for (const [key, value] of this.additionalProperties.entries()) {
@@ -61,10 +70,13 @@ class GithubRepositoryPackage {
     return `${json.charAt(json.length-1) === ',' ? json.slice(0, json.length-1) : json}}`;
   }
 
-  public static unmarshal(json: string | object): GithubRepositoryPackage {
+  public static unmarshal(json: string | object): GithubLocationConfig {
     const obj = typeof json === "object" ? json : JSON.parse(json);
-    const instance = new GithubRepositoryPackage({} as any);
+    const instance = new GithubLocationConfig({} as any);
 
+    if (obj["versionType"] !== undefined) {
+      instance.versionType = obj["versionType"];
+    }
     if (obj["owner"] !== undefined) {
       instance.owner = obj["owner"];
     }
@@ -74,16 +86,16 @@ class GithubRepositoryPackage {
     if (obj["branch"] !== undefined) {
       instance.branch = obj["branch"];
     }
-    if (obj["package-location"] !== undefined) {
-      instance.packageMinusLocation = obj["package-location"];
+    if (obj["meta-location"] !== undefined) {
+      instance.metaMinusLocation = obj["meta-location"];
     }
 
     if (instance.additionalProperties === undefined) {instance.additionalProperties = new Map();}
-      for (const [key, value] of Object.entries(obj).filter((([key,]) => {return !["owner","repo","branch","packageMinusLocation","additionalProperties"].includes(key);}))) {
+      for (const [key, value] of Object.entries(obj).filter((([key,]) => {return !["versionType","owner","repo","branch","metaMinusLocation","additionalProperties"].includes(key);}))) {
         instance.additionalProperties.set(key, value as any);
       }
 
     return instance;
   }
 }
-export { GithubRepositoryPackage };
+export { GithubLocationConfig };

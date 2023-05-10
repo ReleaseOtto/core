@@ -1,4 +1,4 @@
 src/__temp
 node_modules
-dist
+lib
 coverage

@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "description": "The meta information configuration that is used in the local repository that stores information about each generation",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/Meta"
+    }
+  ],
+  "definitions": {
+    "Meta": {
+      "type": "object",
+      "properties": {
+        "dependencies": {
+          "description": "List of current versions this auto-generated code is based on",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

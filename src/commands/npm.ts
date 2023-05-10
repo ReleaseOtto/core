@@ -1,5 +1,10 @@
 import * as fs from 'fs';
 import * as Shell from 'shelljs';
+import { Automate } from 'types/automator/Automate';
+import { PackageAction } from 'types/automator/PackageAction';
+import { temporaryLocation } from 'utils/globals';
+import * as path from 'path';
+import { GithubLocationConfig } from 'types/automator/GithubLocationConfig';
 
 export interface LoadPackageOptions {
     location: string
@@ -38,4 +43,13 @@ export async function runScript({
     if(run.code !== 0) {
         throw new Error(run.stderr);
     }
+}
+
+export async function runAction(config: Automate, packageConfig: PackageAction) {
+    const location = config.location?.config as GithubLocationConfig;
+    const packageDirLocation = path.dirname(path.resolve(temporaryLocation, location.repo, location.metaMinusLocation));
+    runScript({
+        location: packageDirLocation,
+        script: packageConfig.script
+    });
 }

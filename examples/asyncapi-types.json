@@ -4,6 +4,7 @@
         "location": {
             "type": "github",
             "config": {
+                "versionType": "semver",
                 "repo": "github.com/GamingAPI/rust-csharp-game-api",
                 "branch": "master",
                 "meta-location": "./version_meta.json"
@@ -14,6 +15,7 @@
                 "id": "dotnet-nats-template",
                 "type": "github-repository-package",
                 "config": {
+                    "versionType": "semver",
                     "repo": "git@github.com:asyncapi/dotnet-nats-template.git",
                     "branch": "master",
                     "package-location": "package.json"
@@ -23,6 +25,7 @@
                 "id": "asyncapi",
                 "type": "github-asyncapi",
                 "config": {
+                    "versionType": "semver",
                     "repo": "github.com/gamingapi/definitions",
                     "branch": "master",
                     "document-location": "rust_public.asyncapi.json"

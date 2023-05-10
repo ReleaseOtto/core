@@ -1,7 +1,9 @@
+import {AutomateVersion} from './AutomateVersion';
 import {Location} from './Location';
 import {Dependencies} from './Dependencies';
 import {Action} from './Action';
 class Automate {
+  private _version?: AutomateVersion;
   private _id?: string;
   private _description?: string;
   private _location?: Location;
@@ -10,6 +12,7 @@ class Automate {
   private _additionalProperties?: Map<string, any>;
 
   constructor(input: {
+    version?: AutomateVersion,
     id?: string,
     description?: string,
     location?: Location,
@@ -17,6 +20,7 @@ class Automate {
     action?: Action,
     additionalProperties?: Map<string, any>,
   }) {
+    this._version = input.version;
     this._id = input.id;
     this._description = input.description;
     this._location = input.location;
@@ -24,6 +28,9 @@ class Automate {
     this._action = input.action;
     this._additionalProperties = input.additionalProperties;
   }
+
+  get version(): AutomateVersion | undefined { return this._version; }
+  set version(version: AutomateVersion | undefined) { this._version = version; }
 
   get id(): string | undefined { return this._id; }
   set id(id: string | undefined) { this._id = id; }
@@ -45,6 +52,9 @@ class Automate {
 
   public marshal() : string {
     let json = '{'
+    if(this.version !== undefined) {
+      json += `"version": ${typeof this.version === 'number' || typeof this.version === 'boolean' ? this.version : JSON.stringify(this.version)},`; 
+    }
     if(this.id !== undefined) {
       json += `"id": ${typeof this.id === 'number' || typeof this.id === 'boolean' ? this.id : JSON.stringify(this.id)},`; 
     }
@@ -76,6 +86,9 @@ class Automate {
     const obj = typeof json === "object" ? json : JSON.parse(json);
     const instance = new Automate({} as any);
 
+    if (obj["version"] !== undefined) {
+      instance.version = obj["version"];
+    }
     if (obj["id"] !== undefined) {
       instance.id = obj["id"];
     }
@@ -93,7 +106,7 @@ class Automate {
     }
 
     if (instance.additionalProperties === undefined) {instance.additionalProperties = new Map();}
-      for (const [key, value] of Object.entries(obj).filter((([key,]) => {return !["id","description","location","dependencies","action","additionalProperties"].includes(key);}))) {
+      for (const [key, value] of Object.entries(obj).filter((([key,]) => {return !["version","id","description","location","dependencies","action","additionalProperties"].includes(key);}))) {
         instance.additionalProperties.set(key, value as any);
       }
 
