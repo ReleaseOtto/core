@@ -2,7 +2,7 @@
 # Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
 
 # It does magic only if there is package.json file in the root of the project
-name: Release - if Node project
+name: Release
 
 on:
   push:
@@ -16,11 +16,10 @@ jobs:
     # "commits" contains array of objects where one of the properties is commit "message"
     # Release workflow will be skipped if release conventional commits are not used
     if: |
-      startsWith( github.repository, 'asyncapi/' ) && 
-      (startsWith( github.event.commits[0].message , 'fix:' ) ||
+      startsWith( github.event.commits[0].message , 'fix:' ) ||
       startsWith( github.event.commits[0].message, 'fix!:' ) ||
       startsWith( github.event.commits[0].message, 'feat:' ) ||
-      startsWith( github.event.commits[0].message, 'feat!:' ))
+      startsWith( github.event.commits[0].message, 'feat!:' )
     name: Test NodeJS release on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
