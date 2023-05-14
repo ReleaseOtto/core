@@ -50,7 +50,7 @@
     "build:types": "tsc --project tsconfig.json --declaration --emitDeclarationOnly --declarationMap --outDir ./lib/types",
     "release": "semantic-release",
     "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION",
-    "prepublishOnly": "npm run build:prod && npm run generate:readme:toc",
+    "prepublishOnly": "npm run build:prod",
     "generate:assets": "node ./scripts/generate-automator.js",
     "generate:automator:models": "node ./scripts/generate-automator.js",
     "generate:meta:models": "node ./scripts/generate-meta-information.js"
