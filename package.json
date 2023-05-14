@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "description": "OTTO performs your action on new versioning of APIs, packages, schemas, etc. Keepings things nice and neatly automated.",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/releaseotto/core",
+  "homepage": "https://github.com/ReleaseOtto/core",
   "bugs": {
-    "url": "https://github.com/releaseotto/core/issues"
+    "url": "https://github.com/ReleaseOtto/core/issues"
   },
   "engines": {
     "node": ">=16"
