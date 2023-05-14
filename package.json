@@ -1,6 +1,6 @@
 {
   "name": "@releaseotto/core",
-  "version": "0.0.0",
+  "version": "0.2.0",
   "description": "OTTO performs your action on new versioning of APIs, packages, schemas, etc. Keepings things nice and neatly automated.",
   "license": "Apache-2.0",
   "homepage": "https://github.com/ReleaseOtto/core",
